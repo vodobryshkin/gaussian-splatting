@@ -1,0 +1,1 @@
+rootProject.name = "gaussian-splatting"
