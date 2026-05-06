@@ -1,6 +1,7 @@
-package ru.vodobryshkin.ols.domain;
+package ru.vodobryshkin.ols.function;
 
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -28,10 +29,11 @@ public class PolynomialTest {
         );
     }
 
+    @Tag("unit")
     @ParameterizedTest
     @MethodSource("oddDegreePolynomialArgumentsProvider")
     @DisplayName("Значение многочлена четной (четвертой) степени считается правильно.")
-    void odd_degree_polynomial_calculates_correct(double x, double expected) {
+    void odd_degree_polynomial_calculates_correctly(double x, double expected) {
         MathematicalFunction sut = new Polynomial(-19, -14, 89, -48, 10);
 
         double actual = sut.value(x);
@@ -39,10 +41,11 @@ public class PolynomialTest {
         assertThat(actual).isCloseTo(expected, within(0.00001));
     }
 
+    @Tag("unit")
     @ParameterizedTest
     @MethodSource("notOddDegreePolynomialArgumentsProvider")
     @DisplayName("Значение многочлена нечетной (пятой) степени считается правильно.")
-    void not_odd_degree_polynomial_calculates_correct(double x, double expected) {
+    void not_odd_degree_polynomial_calculates_correctly(double x, double expected) {
         MathematicalFunction sut = new Polynomial(0.0001, 0, 0, 0, 0, 10);
 
         double actual = sut.value(x);

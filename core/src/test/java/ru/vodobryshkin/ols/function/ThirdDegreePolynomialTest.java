@@ -1,6 +1,7 @@
-package ru.vodobryshkin.ols.domain;
+package ru.vodobryshkin.ols.function;
 
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -18,10 +19,11 @@ public class ThirdDegreePolynomialTest {
         );
     }
 
+    @Tag("unit")
     @ParameterizedTest
     @MethodSource("thirdDegreeArgumentsProvider")
     @DisplayName("Значение полинома второй степени считается правильно.")
-    void third_degree_polynomial_calculates_correct_with_stable_parameters(double x, double expected) {
+    void third_degree_polynomial_calculates_correctly_with_stable_parameters(double x, double expected) {
         MathematicalFunction sut = new ThirdDegreePolynomial(2, 2, -2, 2);
 
         double actual = sut.value(x);

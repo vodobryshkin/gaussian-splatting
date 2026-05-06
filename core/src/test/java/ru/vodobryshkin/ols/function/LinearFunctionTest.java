@@ -1,6 +1,7 @@
-package ru.vodobryshkin.ols.domain;
+package ru.vodobryshkin.ols.function;
 
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -34,10 +35,11 @@ public class LinearFunctionTest {
         );
     }
 
+    @Tag("unit")
     @ParameterizedTest
     @MethodSource("stableKBArgumentProvider")
     @DisplayName("Значение линейной функции считается правильно при ненулевых k и b.")
-    void linear_function_calculates_correct_with_stable_parameters() {
+    void linear_function_calculates_correctly_with_stable_parameters() {
         double expected = -5;
         MathematicalFunction sut = new LinearFunction(5, 5);
 
@@ -46,10 +48,11 @@ public class LinearFunctionTest {
         assertThat(actual).isEqualTo(expected);
     }
 
+    @Tag("unit")
     @ParameterizedTest
     @MethodSource("zeroKArgumentProvider")
     @DisplayName("Значение линейной функции считается правильно при фиксированном k.")
-    void linear_function_calculates_correct_with_k_0(double b, double x) {
+    void linear_function_calculates_correctly_with_k_0(double b, double x) {
         MathematicalFunction sut = new LinearFunction(0, b);
 
         double actual = sut.value(x);
@@ -57,10 +60,11 @@ public class LinearFunctionTest {
         assertThat(actual).isEqualTo(b);
     }
 
+    @Tag("unit")
     @ParameterizedTest
     @MethodSource("zeroBArgumentProvider")
     @DisplayName("Значение линейной функции считается правильно при фиксированном k.")
-    void linear_function_calculates_correct_with_b_0(double k, double x, double expected) {
+    void linear_function_calculates_correctly_with_b_0(double k, double x, double expected) {
         MathematicalFunction sut = new LinearFunction(k, 0);
 
         double actual = sut.value(x);

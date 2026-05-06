@@ -1,4 +1,4 @@
-package ru.vodobryshkin.ols.domain;
+package ru.vodobryshkin.ols.function;
 
 public class LinearFunction implements MathematicalFunction {
     private final MathematicalFunction polynomial;
