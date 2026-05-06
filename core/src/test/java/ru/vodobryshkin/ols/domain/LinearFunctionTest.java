@@ -1,4 +1,4 @@
-package domain;
+package ru.vodobryshkin.ols.domain;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -37,7 +37,7 @@ public class LinearFunctionTest {
     @ParameterizedTest
     @MethodSource("stableKBArgumentProvider")
     @DisplayName("Значение линейной функции считается правильно при ненулевых k и b.")
-    void linear_function_works_correct_with_stable_parameters() {
+    void linear_function_calculates_correct_with_stable_parameters() {
         double expected = -5;
         MathematicalFunction sut = new LinearFunction(5, 5);
 
@@ -49,7 +49,7 @@ public class LinearFunctionTest {
     @ParameterizedTest
     @MethodSource("zeroKArgumentProvider")
     @DisplayName("Значение линейной функции считается правильно при фиксированном k.")
-    void linear_function_works_correct_with_k_0(double b, double x) {
+    void linear_function_calculates_correct_with_k_0(double b, double x) {
         MathematicalFunction sut = new LinearFunction(0, b);
 
         double actual = sut.value(x);
@@ -60,7 +60,7 @@ public class LinearFunctionTest {
     @ParameterizedTest
     @MethodSource("zeroBArgumentProvider")
     @DisplayName("Значение линейной функции считается правильно при фиксированном k.")
-    void linear_function_works_correct_with_b_0(double k, double x, double expected) {
+    void linear_function_calculates_correct_with_b_0(double k, double x, double expected) {
         MathematicalFunction sut = new LinearFunction(k, 0);
 
         double actual = sut.value(x);

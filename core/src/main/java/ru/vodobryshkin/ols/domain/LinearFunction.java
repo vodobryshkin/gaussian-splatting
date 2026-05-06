@@ -1,16 +1,14 @@
-package domain;
+package ru.vodobryshkin.ols.domain;
 
 public class LinearFunction implements MathematicalFunction {
-    private final double k;
-    private final double b;
+    private final MathematicalFunction polynomial;
 
     public LinearFunction(Number k, Number b) {
-        this.k = k.doubleValue();
-        this.b = b.floatValue();
+        polynomial = new Polynomial(k, b);
     }
 
     @Override
     public double value(double x) {
-        return k * x + b;
+        return polynomial.value(x);
     }
 }
