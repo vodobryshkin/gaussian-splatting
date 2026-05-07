@@ -27,17 +27,17 @@ public class DoubleMatrix implements Matrix<Double> {
 
     @Override
     public int indexOfMaxInAColumn(int columnNumber) {
-        double rowMax = Double.MIN_VALUE;
-        int rowMaxNumber = -1;
+        double rowMax = -1;
+        int rowMaxNumber = columnNumber;
 
-        for (int j = 0; j < n; j++) {
-            if (matrix.get(j).get(columnNumber) > rowMax) {
-                rowMax = matrix.get(j).get(columnNumber);
+        for (int j = columnNumber; j < n; j++) {
+            if (Math.abs(matrix.get(j).get(columnNumber)) > rowMax) {
+                rowMax = Math.abs(matrix.get(j).get(columnNumber));
                 rowMaxNumber = j;
             }
         }
 
-        if (Math.abs(rowMax) < EPSILON) {
+        if (rowMax < EPSILON) {
             throw new ArithmeticException("The matrix is singular.");
         }
 
@@ -56,8 +56,11 @@ public class DoubleMatrix implements Matrix<Double> {
 
     @Override
     public DoubleMatrix subtractTwoRows(int i, int j) {
+        // ИСПРАВЛЕНО: вынесли множитель до цикла, чтобы он не мутировал в процессе
+        double factor = matrix.get(i).get(j);
+
         for (int k = 0; k < n; k++) {
-            matrix.get(i).set(k, matrix.get(i).get(k) - matrix.get(j).get(k));
+            matrix.get(i).set(k, matrix.get(i).get(k) - factor * matrix.get(j).get(k));
         }
 
         return new DoubleMatrix(matrix);
@@ -78,7 +81,7 @@ public class DoubleMatrix implements Matrix<Double> {
     public DoubleMatrix divideRowByDiagonalElement(int i) {
         double diagonal = matrix.get(i).get(i);
 
-        if (diagonal == 0.0) {
+        if (Math.abs(diagonal) < EPSILON) {
             throw new ArithmeticException("Division by zero.");
         }
 

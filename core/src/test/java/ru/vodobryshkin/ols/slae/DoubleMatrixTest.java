@@ -18,7 +18,7 @@ public class DoubleMatrixTest {
     static Stream<Arguments> maxElemCorrectArgumentsProvider() {
         return Stream.of(
                 Arguments.of(0, 1),
-                Arguments.of(1, 0),
+                Arguments.of(1, 1),
                 Arguments.of(2, 2)
         );
     }
@@ -72,34 +72,34 @@ public class DoubleMatrixTest {
     static Stream<Arguments> twoRowsSubtractionCorrectArgumentsProvider() {
         return Stream.of(
                 Arguments.of(0, 1, new DoubleMatrix(List.of(
-                        List.of(-3.0, -3.0, -3.0),
+                        List.of(-7.0, -8.0, -9.0),
                         List.of(4.0, 5.0, 6.0),
                         List.of(7.0, 8.0, 9.0)
                 ))),
                 Arguments.of(1, 0, new DoubleMatrix(List.of(
                         List.of(1.0, 2.0, 3.0),
-                        List.of(3.0, 3.0, 3.0),
+                        List.of(0.0, -3.0, -6.0),
                         List.of(7.0, 8.0, 9.0)
                 ))),
                 Arguments.of(0, 2, new DoubleMatrix(List.of(
-                        List.of(-6.0, -6.0, -6.0),
+                        List.of(-20.0, -22.0, -24.0),
                         List.of(4.0, 5.0, 6.0),
                         List.of(7.0, 8.0, 9.0)
                 ))),
                 Arguments.of(2, 0, new DoubleMatrix(List.of(
                         List.of(1.0, 2.0, 3.0),
                         List.of(4.0, 5.0, 6.0),
-                        List.of(6.0, 6.0, 6.0)
+                        List.of(0.0, -6.0, -12.0)
                 ))),
                 Arguments.of(1, 2, new DoubleMatrix(List.of(
                         List.of(1.0, 2.0, 3.0),
-                        List.of(-3.0, -3.0, -3.0),
+                        List.of(-38.0, -43.0, -48.0),
                         List.of(7.0, 8.0, 9.0)
                 ))),
                 Arguments.of(2, 1, new DoubleMatrix(List.of(
                         List.of(1.0, 2.0, 3.0),
                         List.of(4.0, 5.0, 6.0),
-                        List.of(3.0, 3.0, 3.0)
+                        List.of(-25.0, -32.0, -39.0)
                 )))
         );
     }
