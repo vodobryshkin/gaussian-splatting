@@ -7,11 +7,11 @@ public class DefaultSystemOfLinearAlgebraicEquation implements SystemOfLinearAlg
     private Matrix<Double> matrix;
     private final List<Double> bColumn;
 
-    public DefaultSystemOfLinearAlgebraicEquation(List<List<Double>> matrix, List<Double> bColumn) {
-        this(new DoubleMatrix(matrix), bColumn);
-    }
-
     public DefaultSystemOfLinearAlgebraicEquation(Matrix<Double> matrix, List<Double> bColumn) {
+        if (matrix.size() != bColumn.size()) {
+            throw new IllegalArgumentException("Matrix raw's length must be the same size as b-vector length.");
+        }
+
         this.matrix = matrix;
         this.bColumn = new ArrayList<>(bColumn);
     }
@@ -19,10 +19,6 @@ public class DefaultSystemOfLinearAlgebraicEquation implements SystemOfLinearAlg
     @Override
     public List<Double> solutionVector() {
         int n = matrix.size();
-
-        if (matrix.size() != bColumn.size()) {
-            throw new IllegalArgumentException("Matrix raw's length must be the same size as b-vector length.");
-        }
 
         for (int i = 0; i < n; i++) {
             int rowMaxNumber = matrix.indexOfMaxInAColumn(i);

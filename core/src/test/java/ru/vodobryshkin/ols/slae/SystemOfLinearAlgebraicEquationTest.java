@@ -71,4 +71,17 @@ public class SystemOfLinearAlgebraicEquationTest {
 
         assertThrows(ArithmeticException.class, sut::solutionVector);
     }
+
+    @Tag("unit")
+    @Test
+    @DisplayName("СЛАУ фиксирует то, что матрица и вектор b неодинаковой длины, ввиду чего решение невозможно.")
+    void SLAE_catches_different_matrix_and_vector_b_sizes() {
+        Matrix<Double> matrix = new DoubleMatrix(new ArrayList<>(List.of(
+                new ArrayList<>(List.of(1.0, 1.0)),
+                new ArrayList<>(List.of(2.0, 2.0))
+        )));
+        List<Double> b = new ArrayList<>(List.of(2.0, 5.0, 10.0));
+
+        assertThrows(IllegalArgumentException.class, () -> new DefaultSystemOfLinearAlgebraicEquation(matrix, b));
+    }
 }
