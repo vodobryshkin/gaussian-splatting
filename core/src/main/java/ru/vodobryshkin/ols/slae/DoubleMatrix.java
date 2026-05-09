@@ -105,6 +105,23 @@ public class DoubleMatrix implements Matrix<Double> {
     }
 
     @Override
+    public List<Double> column(int number) {
+        int columns = matrix.getFirst().size();
+
+        if (number < 0 || number >= columns) {
+            throw new IllegalArgumentException("Column index is out of matrix bounds.");
+        }
+
+        List<Double> result = new ArrayList<>();
+
+        for (List<Double> row : matrix) {
+            result.add(row.get(number));
+        }
+
+        return result;
+    }
+
+    @Override
     public Matrix<Double> transposedMatrix() {
         List<List<Double>> transposedMatrix = new ArrayList<>();
 

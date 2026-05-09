@@ -10,6 +10,7 @@ public interface Matrix<T extends Number> {
 
     T diagonalElement(int i);
     Double sumOfRow(int i, List<Double> solutionList);
+    List<T> column(int number);
 
     Matrix<T> subtractTwoRows(int i, int j);
     Matrix<T> swapTwoRows(int i, int j);

@@ -377,4 +377,33 @@ public class DoubleMatrixTest {
 
         assertThrows(IllegalArgumentException.class, () -> left.multiply(right));
     }
+
+    @Tag("unit")
+    @Test
+    @DisplayName("Матрица корректно возвращает столбец квадратной матрицы.")
+    void square_matrix_correctly_returns_column() {
+        Matrix<Double> sut = new DoubleMatrix(List.of(
+                List.of(1.0, 2.0, 3.0),
+                List.of(4.0, 5.0, 6.0),
+                List.of(7.0, 8.0, 9.0)
+        ));
+
+        List<Double> actual = sut.column(1);
+
+        assertThat(actual).isEqualTo(List.of(2.0, 5.0, 8.0));
+    }
+
+    @Tag("unit")
+    @Test
+    @DisplayName("Матрица корректно возвращает столбец прямоугольной матрицы.")
+    void rectangular_matrix_correctly_returns_column() {
+        Matrix<Double> sut = new DoubleMatrix(List.of(
+                List.of(1.0, 2.0, 3.0),
+                List.of(4.0, 5.0, 6.0)
+        ));
+
+        List<Double> actual = sut.column(2);
+
+        assertThat(actual).isEqualTo(List.of(3.0, 6.0));
+    }
 }

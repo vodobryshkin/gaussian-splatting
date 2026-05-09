@@ -47,4 +47,14 @@ public class PixelColoredImage implements ColoredImage {
 
         return pixels;
     }
+
+    @Override
+    public int height() {
+        return image.getHeight();
+    }
+
+    @Override
+    public int width() {
+        return image.getWidth();
+    }
 }
