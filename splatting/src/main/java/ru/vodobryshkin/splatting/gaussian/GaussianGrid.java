@@ -1,7 +1,6 @@
-package ru.vodobryshkin.splatting.image;
+package ru.vodobryshkin.splatting.gaussian;
 
-import function.FunctionOfTwoVariables;
-import function.GaussianWithFixedSigma;
+import ru.vodobryshkin.splatting.function.FunctionOfTwoVariables;
 
 import java.util.ArrayList;
 import java.util.List;

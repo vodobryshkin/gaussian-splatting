@@ -1,7 +1,6 @@
-package ru.vodobryshkin.splatting.image;
+package ru.vodobryshkin.splatting.gaussian;
 
-import function.FunctionOfTwoVariables;
-import function.GaussianWithFixedSigma;
+import ru.vodobryshkin.splatting.function.FunctionOfTwoVariables;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.params.ParameterizedTest;

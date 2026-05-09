@@ -1,5 +1,6 @@
-package function;
+package ru.vodobryshkin.splatting.gaussian;
 
+import ru.vodobryshkin.splatting.function.FunctionOfTwoVariables;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
