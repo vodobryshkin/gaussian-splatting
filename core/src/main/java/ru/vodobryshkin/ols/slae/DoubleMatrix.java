@@ -3,6 +3,7 @@ package ru.vodobryshkin.ols.slae;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @ToString
@@ -15,12 +16,6 @@ public class DoubleMatrix implements Matrix<Double> {
 
     public DoubleMatrix(List<List<Double>> matrix) {
         n = matrix.size();
-
-        for (List<Double> row : matrix) {
-            if (row.size() != n) {
-                throw new IllegalArgumentException("Matrix rows must have the same length.");
-            }
-        }
 
         this.matrix = matrix;
     }
@@ -45,8 +40,13 @@ public class DoubleMatrix implements Matrix<Double> {
     }
 
     @Override
-    public int size() {
+    public int rowsSize() {
         return n;
+    }
+
+    @Override
+    public int columnsSize() {
+        return matrix.getFirst().size();
     }
 
     @Override
@@ -56,7 +56,6 @@ public class DoubleMatrix implements Matrix<Double> {
 
     @Override
     public DoubleMatrix subtractTwoRows(int i, int j) {
-        // ИСПРАВЛЕНО: вынесли множитель до цикла, чтобы он не мутировал в процессе
         double factor = matrix.get(i).get(j);
 
         for (int k = 0; k < n; k++) {
@@ -103,5 +102,61 @@ public class DoubleMatrix implements Matrix<Double> {
         }
 
         return sum;
+    }
+
+    @Override
+    public Matrix<Double> transposedMatrix() {
+        List<List<Double>> transposedMatrix = new ArrayList<>();
+
+        int columns = matrix.getFirst().size();
+
+        for (int column = 0; column < columns; column++) {
+            List<Double> transposedRow = new ArrayList<>();
+
+            for (List<Double> doubles : matrix) {
+                transposedRow.add(doubles.get(column));
+            }
+
+            transposedMatrix.add(transposedRow);
+        }
+
+        return new DoubleMatrix(transposedMatrix);
+    }
+
+    @Override
+    public Matrix<Double> multiply(Matrix<Double> other) {
+        if (!(other instanceof DoubleMatrix otherDoubleMatrix)) {
+            throw new IllegalArgumentException("Cannot multiply other matrix.");
+        }
+
+        int leftRows = this.matrix.size();
+        int leftColumns = this.matrix.getFirst().size();
+
+        int rightRows = otherDoubleMatrix.matrix.size();
+        int rightColumns = otherDoubleMatrix.matrix.getFirst().size();
+
+        if (leftColumns != rightRows) {
+            throw new IllegalArgumentException("Cannot multiply matrixes because left columns must equal right rows.");
+        }
+
+        List<List<Double>> result = new ArrayList<>();
+
+        for (int i = 0; i < leftRows; i++) {
+            List<Double> resultRow = new ArrayList<>();
+
+            for (int j = 0; j < rightColumns; j++) {
+                double sum = 0.0;
+
+                for (int k = 0; k < leftColumns; k++) {
+                    sum += this.matrix.get(i).get(k) * otherDoubleMatrix.matrix.get(k).get(j);
+                }
+
+                resultRow.add(sum);
+            }
+
+            result.add(resultRow);
+        }
+
+        return new DoubleMatrix(result);
     }
 }

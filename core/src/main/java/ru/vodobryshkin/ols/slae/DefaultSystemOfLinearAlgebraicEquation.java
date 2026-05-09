@@ -8,7 +8,13 @@ public class DefaultSystemOfLinearAlgebraicEquation implements SystemOfLinearAlg
     private final List<Double> bColumn;
 
     public DefaultSystemOfLinearAlgebraicEquation(Matrix<Double> matrix, List<Double> bColumn) {
-        if (matrix.size() != bColumn.size()) {
+        if (matrix.columnsSize() != matrix.rowsSize()) {
+            throw new IllegalArgumentException("For calculating SLAE, matrix's raws and columns must have the same size.");
+        }
+
+        int n = matrix.columnsSize();
+
+        if (n != bColumn.size()) {
             throw new IllegalArgumentException("Matrix raw's length must be the same size as b-vector length.");
         }
 
@@ -18,7 +24,7 @@ public class DefaultSystemOfLinearAlgebraicEquation implements SystemOfLinearAlg
 
     @Override
     public List<Double> solutionVector() {
-        int n = matrix.size();
+        int n = matrix.columnsSize();
 
         for (int i = 0; i < n; i++) {
             int rowMaxNumber = matrix.indexOfMaxInAColumn(i);

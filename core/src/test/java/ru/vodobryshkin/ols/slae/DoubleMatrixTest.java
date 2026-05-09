@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class DoubleMatrixTest {
@@ -104,6 +105,31 @@ public class DoubleMatrixTest {
         );
     }
 
+    static Stream<Arguments> transposedMatrixArgumentsProvider() {
+        return Stream.of(
+                Arguments.of(1, new DoubleMatrix(List.of(
+                        List.of(1.0, 4.0, 7.0),
+                        List.of(2.0, 5.0, 8.0),
+                        List.of(3.0, 6.0, 9.0)
+                ))),
+                Arguments.of(2, new DoubleMatrix(List.of(
+                        List.of(1.0, 2.0, 3.0),
+                        List.of(4.0, 5.0, 6.0),
+                        List.of(7.0, 8.0, 9.0)
+                ))),
+                Arguments.of(3, new DoubleMatrix(List.of(
+                        List.of(1.0, 4.0, 7.0),
+                        List.of(2.0, 5.0, 8.0),
+                        List.of(3.0, 6.0, 9.0)
+                ))),
+                Arguments.of(4, new DoubleMatrix(List.of(
+                        List.of(1.0, 2.0, 3.0),
+                        List.of(4.0, 5.0, 6.0),
+                        List.of(7.0, 8.0, 9.0)
+                )))
+        );
+    }
+
     static Stream<Arguments> rowMultipliedByXVectorCorrectArgumentsProvider() {
         return Stream.of(
                 Arguments.of(3, List.of(), 0.0),
@@ -113,14 +139,66 @@ public class DoubleMatrixTest {
         );
     }
 
-    @Tag("unit")
-    @Test
-    @DisplayName("Матрица не создаётся при несовпадении количества строк и количества столбцов.")
-    void matrix_is_not_created_when_different_numbers_of_rows_and_columns() {
-        assertThrows(IllegalArgumentException.class, () -> new DoubleMatrix(List.of(
-                List.of(1.0, 2.0, 3.0),
-                List.of(1.0, 2.0, 3.0)
-        )));
+    static Stream<Arguments> matrixMultiplicationCorrectArgumentsProvider() {
+        return Stream.of(
+                Arguments.of(
+                        new DoubleMatrix(List.of(
+                                List.of(1.0, 2.0),
+                                List.of(3.0, 4.0)
+                        )),
+                        new DoubleMatrix(List.of(
+                                List.of(5.0, 6.0),
+                                List.of(7.0, 8.0)
+                        )),
+                        new DoubleMatrix(List.of(
+                                List.of(19.0, 22.0),
+                                List.of(43.0, 50.0)
+                        ))
+                ),
+                Arguments.of(
+                        new DoubleMatrix(List.of(
+                                List.of(1.0, 2.0, 3.0),
+                                List.of(4.0, 5.0, 6.0)
+                        )),
+                        new DoubleMatrix(List.of(
+                                List.of(7.0, 8.0),
+                                List.of(9.0, 10.0),
+                                List.of(11.0, 12.0)
+                        )),
+                        new DoubleMatrix(List.of(
+                                List.of(58.0, 64.0),
+                                List.of(139.0, 154.0)
+                        ))
+                ),
+                Arguments.of(
+                        new DoubleMatrix(List.of(
+                                List.of(1.0, 2.0, 3.0)
+                        )),
+                        new DoubleMatrix(List.of(
+                                List.of(4.0),
+                                List.of(5.0),
+                                List.of(6.0)
+                        )),
+                        new DoubleMatrix(List.of(
+                                List.of(32.0)
+                        ))
+                ),
+                Arguments.of(
+                        new DoubleMatrix(List.of(
+                                List.of(4.0),
+                                List.of(5.0),
+                                List.of(6.0)
+                        )),
+                        new DoubleMatrix(List.of(
+                                List.of(1.0, 2.0, 3.0)
+                        )),
+                        new DoubleMatrix(List.of(
+                                List.of(4.0, 8.0, 12.0),
+                                List.of(5.0, 10.0, 15.0),
+                                List.of(6.0, 12.0, 18.0)
+                        ))
+                )
+        );
     }
 
     @Tag("unit")
@@ -228,5 +306,75 @@ public class DoubleMatrixTest {
         double actual = sut.sumOfRow(i, hut);
 
         assertThat(actual).isEqualTo(expected);
+    }
+
+    @Tag("unit")
+    @ParameterizedTest
+    @MethodSource("transposedMatrixArgumentsProvider")
+    @DisplayName("Квадратная матрица корректно транспонируется.")
+    void square_matrix_correctly_transposing(int times, Matrix<Double> expected) {
+        Matrix<Double> sut = new DoubleMatrix(new ArrayList<>(List.of(
+                new ArrayList<>(List.of(1.0, 2.0, 3.0)),
+                new ArrayList<>(List.of(4.0, 5.0, 6.0)),
+                new ArrayList<>(List.of(7.0, 8.0, 9.0))
+        )));
+
+        Matrix<Double> actual = sut;
+
+        for (int i = 0; i < times; i++) {
+            actual = actual.transposedMatrix();
+        }
+
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @Tag("unit")
+    @Test
+    @DisplayName("Не квадратная матрица корректно транспонируется.")
+    void matrix_correctly_transposing() {
+        Matrix<Double> sut = new DoubleMatrix(new ArrayList<>(List.of(
+                new ArrayList<>(List.of(1.0, 2.0, 3.0))
+        )));
+        Matrix<Double> expected = new DoubleMatrix(
+                List.of(List.of(1.0), List.of(2.0), List.of(3.0))
+        );
+
+        Matrix<Double> actual = sut.transposedMatrix();
+
+        assertAll(
+                () -> assertThat(actual).isEqualTo(expected),
+                () -> assertThat(actual.transposedMatrix()).isEqualTo(sut)
+        );
+    }
+
+    @Tag("unit")
+    @ParameterizedTest
+    @MethodSource("matrixMultiplicationCorrectArgumentsProvider")
+    @DisplayName("Матрицы корректно умножаются.")
+    void matrices_correctly_multiply(
+            Matrix<Double> left,
+            Matrix<Double> right,
+            Matrix<Double> expected
+    ) {
+        Matrix<Double> actual = left.multiply(right);
+
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @Tag("unit")
+    @Test
+    @DisplayName("Матрицы не умножаются при несовместимых размерах.")
+    void matrices_do_not_multiply_when_sizes_are_incompatible() {
+        Matrix<Double> left = new DoubleMatrix(List.of(
+                List.of(1.0, 2.0, 3.0),
+                List.of(4.0, 5.0, 6.0)
+        ));
+
+        Matrix<Double> right = new DoubleMatrix(List.of(
+                List.of(1.0, 2.0),
+                List.of(3.0, 4.0)
+        ));
+
+        assertThrows(IllegalArgumentException.class, () -> left.multiply(right));
     }
 }
