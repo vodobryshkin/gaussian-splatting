@@ -1,5 +1,10 @@
 package function;
 
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+
+@ToString
+@EqualsAndHashCode
 public class GaussianWithFixedSigma implements FunctionOfTwoVariables {
     private final double sigma;
     private final double centerX;
