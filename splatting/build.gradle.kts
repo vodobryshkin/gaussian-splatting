@@ -1,5 +1,6 @@
 plugins {
     id("java")
+    id("application")
 }
 
 group = "com.github.vodobryshkin"
@@ -16,6 +17,10 @@ dependencies {
     implementation(project(":core"))
     compileOnly("org.projectlombok:lombok:1.18.46")
     annotationProcessor("org.projectlombok:lombok:1.18.46")
+}
+
+application {
+    mainClass = "ru.vodobryshkin.splatting.Main"
 }
 
 tasks.test {
