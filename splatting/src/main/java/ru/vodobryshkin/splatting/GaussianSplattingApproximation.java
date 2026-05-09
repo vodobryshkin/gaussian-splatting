@@ -3,7 +3,6 @@ package ru.vodobryshkin.splatting;
 import ru.vodobryshkin.ols.slae.DefaultSystemOfLinearAlgebraicEquation;
 import ru.vodobryshkin.ols.slae.DoubleMatrix;
 import ru.vodobryshkin.ols.slae.Matrix;
-import ru.vodobryshkin.ols.slae.SystemOfLinearAlgebraicEquation;
 import ru.vodobryshkin.splatting.function.FunctionOfTwoVariables;
 import ru.vodobryshkin.splatting.gaussian.GaussianBasis;
 import ru.vodobryshkin.splatting.gaussian.Grid;
@@ -37,13 +36,17 @@ public class GaussianSplattingApproximation {
         List<Double> greenColumn = B.column(1);
         List<Double> blueColumn = B.column(2);
 
-        SystemOfLinearAlgebraicEquation redSystem = new DefaultSystemOfLinearAlgebraicEquation(A, redColumn);
-        SystemOfLinearAlgebraicEquation greenSystem = new DefaultSystemOfLinearAlgebraicEquation(A, greenColumn);
-        SystemOfLinearAlgebraicEquation blueSystem = new DefaultSystemOfLinearAlgebraicEquation(A, blueColumn);
+        List<Double> redSolution =
+                new DefaultSystemOfLinearAlgebraicEquation(A(Phi), redColumn)
+                        .solutionVector();
 
-        List<Double> redSolution = redSystem.solutionVector();
-        List<Double> greenSolution = greenSystem.solutionVector();
-        List<Double> blueSolution = blueSystem.solutionVector();
+        List<Double> greenSolution =
+                new DefaultSystemOfLinearAlgebraicEquation(A(Phi), greenColumn)
+                        .solutionVector();
+
+        List<Double> blueSolution =
+                new DefaultSystemOfLinearAlgebraicEquation(A(Phi), blueColumn)
+                        .solutionVector();
 
         BufferedImage newImage = reconstructImage(image.width(), image.height(), gaussians, redSolution, greenSolution, blueSolution);
 
